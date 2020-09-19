@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load comments %}
+{% load static %}
+
+<form method="POST" action="{% comment_form_target %}">
+    {% csrf_token %}
+    <fieldset>
+        <input type="hidden" name="next" value="{% url 'comments-xtd-sent' %}"/>
+    
+        <div class="alert alert-danger" data-comment-element="errors" hidden>
+        </div>
+
+        {% for field in form %}
+        {% if field.is_hidden %}<div>{{ field }}</div>{% endif %}
+        {% endfor %}
+
+        {{ form.comment }}
+        {{ form.honeypot }}
+        {{ form.content_type }}
+        {{ form.object_pk }}
+        {{ form.timestamp }}
+        {{ form.security_hash }}
+    </fieldset>
+
+    <div class="row form-group">
+        <div class="offset-md-3 col-md-7">
+            <input type="submit" name="post" value="{% trans 'send' %}" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+<script src="{% static 'MainSite/comment_form.js' %}"></script>   
